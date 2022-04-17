@@ -1,4 +1,4 @@
-#include "holberton.h"
+#include "main.h"
 /**
  * printf_int - prints integer
  * @args: argument to print

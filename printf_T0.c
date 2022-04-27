@@ -35,7 +35,7 @@ int printf_string(va_list val)
 	return (i);
 }
 /**
- * print_37 - prints the % character
+ * printf_37 - prints the % character
  *
  * Return: 1, which is the length of %;
  */

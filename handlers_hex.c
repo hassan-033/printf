@@ -11,9 +11,7 @@
  */
 int handle_hex(uint32_t n, str_builder *sb, int is_upper)
 {
-	if (n == 0)
-		return (_write(sb, "0", 1));
-	return (write_hex(n, sb, is_upper, 0));
+	return (write_hex(n, sb, is_upper, 1));
 }
 
 /**
@@ -26,7 +24,8 @@ int handle_hex(uint32_t n, str_builder *sb, int is_upper)
  */
 int handle_ptr(uint64_t n, str_builder *sb)
 {
-	if (n == 0)
-		return (_write(sb, "0", 1));
-	return (write_hex(n, sb, 1, 16));
+	int b = _write(sb, "0x", 2);
+
+	b += write_hex(n, sb, 0, 12);
+	return (b);
 }

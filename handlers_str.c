@@ -33,7 +33,7 @@ int handle_npstr(char *s, str_builder *sb)
 		{
 			c = *(s + i);
 			b += (c < 16) ? _write(sb, "\\x0", 3) : _write(sb, "\\x", 2);
-			b += write_hex(c, sb, 1);
+			b += write_hex(c, sb, 1, 2);
 		}
 		else
 		{

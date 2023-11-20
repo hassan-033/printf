@@ -151,7 +151,7 @@ int write_hex(uint64_t n, str_builder *sb, int is_upper, int w)
 	int bytes;
 
 	if (n == 0 && w == 0)
-			return (0);
+		return (0);
 
 	bytes = write_hex(n / 16, sb, is_upper, w - 1);
 

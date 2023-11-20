@@ -74,6 +74,8 @@ char *getflag(char *percent_ptr, str_builder *sb)
  */
 int handle_specifier(va_list ap, char **ptr, str_builder *buffer)
 {
+	int b = 0;
+
 	switch (**ptr)
 	{
 	case 'c':
@@ -104,7 +106,10 @@ int handle_specifier(va_list ap, char **ptr, str_builder *buffer)
 		}
 		else
 		{
-			return (strlen(*ptr) == 1 ? -1 : _write(buffer, "%", 1));
+			/*return (strlen(*ptr) == 1 ? -1 : _write(buffer, "%", 1));*/
+			b += _write(buffer, "%", 1);
+			b += _write(buffer, "%", 1);
+			return (b);
 		}
 	}
 }
@@ -140,14 +145,18 @@ int _printf(const char *format, ...)
 			ptr = getflag(ptr, &flags);
 			temp = handle_specifier(ap, &ptr, &buffer);
 			if (temp < 0)
+			{
+				_write(&buffer, NULL, 0);
+				sb_clean(&flags);
 				return (temp);
+			}
 			bytes += temp;
+			sb_clean(&flags);
 		}
 		++ptr;
 	}
 	bytes += _write(&buffer, NULL, 0); /* write buffer to stdout */
 	va_end(ap);
-	sb_clean(&flags);
 	return (bytes);
 }
 

@@ -1,49 +1,55 @@
-#ifndef MAIN_H
-#define MAIN_H
-
+#ifndef _MAIN_H
+#define _MAIN_H
+#include <stdarg.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
-#include <unistd.h>
+#include <string.h>
+#include <stdint.h>
+#include <ctype.h>
 
-
-
+#define BUFFER_SIZE 1024
+#define MAX_FLAG_LEN 6
+#define SPECIFIERS "sc%diuboxX"
 /**
- * struct format - match the conversion specifiers for printf
- * @id: type char pointer of the specifier i.e (l, h) for (d, i, u, o, x, X)
- * @f: type pointer to function for the conversion specifier
+ * struct str_builder - string builder
+ * @buffer: the buffer string (malloc'ed)
+ * @len: length of the string
+ * @cap: size (max capacity) of the buffer
  *
+ * Description: string builder data structure
+ * for appending char * effectively and efficiently
+ * to buffer.
  */
-
-typedef struct format
+typedef struct str_builder
 {
-	char *id;
-	int (*f)();
-} convert_match;
+	char *buffer;
+	int len;
+	int cap;
+} str_builder;
 
-int printf_pointer(va_list val);
-int printf_hex_aux(unsigned long int num);
-int printf_HEX_aux(unsigned int num);
-int printf_exclusive_string(va_list val);
-int printf_HEX(va_list val);
-int printf_hex(va_list val);
-int printf_oct(va_list val);
-int printf_unsigned(va_list args);
-int printf_bin(va_list val);
-int printf_srev(va_list args);
-int printf_rot13(va_list args);
-int printf_int(va_list args);
-int printf_dec(va_list args);
-int _strlen(char *s);
-int *_strcpy(char *dest, char *src);
-int _strlenc(const char *s);
-int rev_string(char *s);
-int _strlenc(const char *s);
-int printf_37(void);
-int printf_char(va_list val);
-int printf_string(va_list val);
-int _putchar(char c);
+int sb_init(str_builder *sb, int init_capacity);
+void sb_append(str_builder *sb, char *s, int n);
+void sb_clean(str_builder *sb);
+int sb_is_full(str_builder *sb, int len);
+
+void handle_char(char c, str_builder *sb);
+void handle_str(char *s, str_builder *sb);
+void handle_int(int n, str_builder *sb);
+void handle_uint(uint32_t n, str_builder *sb);
+void handle_bin(uint32_t n, str_builder *sb);
+void handle_oct(uint32_t n, str_builder *sb);
+void handle_hex(uint32_t n, str_builder *sb, int is_upper);
+void handle_npstr(char *s, str_builder *sb);
+
 int _printf(const char *format, ...);
+void _write(str_builder *sb, char *s, int s_len);
+char *getflag(char *percent_ptr, str_builder *sb);
 
-#endif
+void write_int(int64_t n, str_builder *sb);
+void write_bin(uint64_t n, str_builder *sb);
+void write_oct(uint64_t n, str_builder *sb);
+void write_hex(uint64_t n, str_builder *sb, int isUpper);
+
+
+#endif /*_MAIN_H*/

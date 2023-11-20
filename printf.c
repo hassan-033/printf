@@ -74,8 +74,6 @@ char *getflag(char *percent_ptr, str_builder *sb)
  */
 int handle_specifier(va_list ap, char **ptr, str_builder *buffer)
 {
-	int b = 0;
-
 	switch (**ptr)
 	{
 	case 'c':
@@ -98,19 +96,10 @@ int handle_specifier(va_list ap, char **ptr, str_builder *buffer)
 	case 'x':
 	case 'X':
 		return (handle_hex(va_arg(ap, uint32_t), buffer, isupper(*(*ptr))));
+	case 'p':
+		return (handle_ptr(va_arg(ap, void *), buffer));
 	default:
-		if (strlen(*ptr) == 0)
-		{
-			(*ptr)--;
-			return (-1);
-		}
-		else
-		{
-			/*return (strlen(*ptr) == 1 ? -1 : _write(buffer, "%", 1));*/
-			b += _write(buffer, "%", 1);
-			b += _write(buffer, *ptr, 1);
-			return (b);
-		}
+		return (handle_default(ptr, buffer));
 	}
 }
 

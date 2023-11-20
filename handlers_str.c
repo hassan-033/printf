@@ -70,3 +70,27 @@ int handle_str(char *s, str_builder *sb)
 	b += (_write(sb, s, s_len));
 	return (b);
 }
+
+/**
+ * handle_default - handles the wrong conversion specifier.
+ * @ptr: pointer to pointer of start of string.
+ * @sb: pointer to the buffer
+ *
+ * Return: number of bytes written
+ */
+int handle_default(char **ptr, str_builder *sb)
+{
+	int b = 0;
+
+	if (strlen(*ptr) == 0)
+	{
+		(*ptr)--;
+		return (-1);
+	}
+	else
+	{
+		b += _write(sb, "%", 1);
+		b += _write(sb, *ptr, 1);
+		return (b);
+	}
+}

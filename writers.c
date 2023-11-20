@@ -141,17 +141,19 @@ int write_oct(uint64_t n, str_builder *sb)
  * @n: the integer to write as hexadecimal.
  * @sb: pointer to the buffer.
  * @is_upper: whether to write in uppercase.
+ * @w: speciifies width (shorts are padded with 0).
  *
  * Return: number of bytes written
  */
-int write_hex(uint64_t n, str_builder *sb, int is_upper)
+int write_hex(uint64_t n, str_builder *sb, int is_upper, int w)
 {
 	char c;
 	int bytes;
 
-	if (n == 0)
-		return (0);
-	bytes = write_hex(n / 16, sb, is_upper);
+	if (n == 0 && w == 0)
+			return (0);
+
+	bytes = write_hex(n / 16, sb, is_upper, w - 1);
 
 	c = (n % 16) + '0';
 	if (c > '9')

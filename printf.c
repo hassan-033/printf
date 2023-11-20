@@ -8,18 +8,20 @@
  * @s: the str to write.
  * @s_len: the len of str to write.
  *
- * Return: Nothing..
+ * Return: the amount of bytes written.
  */
-void _write(str_builder *sb, char *s, int s_len)
+int _write(str_builder *sb, char *s, int s_len)
 {
+	int bytes = 0;
+
 	if (s == NULL) /* condition to write buffer to stdout */
 	{
-		write(1, sb->buffer, sb->len);
+		bytes = write(1, sb->buffer, sb->len);
 		sb_clean(sb);
 	}
 	else if (sb_is_full(sb, s_len)) /* write buffer to stdout if buffer is full */
 	{
-		write(1, sb->buffer, sb->len);
+		bytes = write(1, sb->buffer, sb->len);
 		sb_clean(sb);
 		sb_init(sb, BUFFER_SIZE);
 		sb_append(sb, s, s_len);
@@ -28,6 +30,7 @@ void _write(str_builder *sb, char *s, int s_len)
 	{
 		sb_append(sb, s, s_len);
 	}
+	return (bytes);
 }
 
 /**
@@ -65,42 +68,34 @@ char *getflag(char *percent_ptr, str_builder *sb)
  * @ptr: the conversion specifier.
  * @buffer: pointer to the buffer.
  *
- * Return: Nothing..
+ * Return: Number of bytes written..
  */
-void handle_specifier(va_list ap, char *ptr, str_builder *buffer)
+int handle_specifier(va_list ap, char *ptr, str_builder *buffer)
 {
 	switch (*ptr)
 	{
 	case 'c':
-		handle_char(va_arg(ap, int), buffer);
-		break;
+		return (handle_char(va_arg(ap, int), buffer));
 	case 's':
-		handle_str(va_arg(ap, char *), buffer);
-		break;
+		return (handle_str(va_arg(ap, char *), buffer));
 	case 'S':
-		handle_npstr(va_arg(ap, char *), buffer);
-		break;
+		return (handle_npstr(va_arg(ap, char *), buffer));
 	case '%':
-		_write(buffer, "%", 1);
-		break;
+		return (_write(buffer, "%", 1));
 	case 'd':
 	case 'i':
-		handle_int(va_arg(ap, int), buffer);
-		break;
+		return (handle_int(va_arg(ap, int), buffer));
 	case 'u':
-		handle_uint(va_arg(ap, uint32_t), buffer);
-		break;
+		return (handle_uint(va_arg(ap, uint32_t), buffer));
 	case 'b':
-		handle_bin(va_arg(ap, uint32_t), buffer);
-		break;
+		return (handle_bin(va_arg(ap, uint32_t), buffer));
 	case 'o':
-		handle_oct(va_arg(ap, uint32_t), buffer);
-		break;
+		return (handle_oct(va_arg(ap, uint32_t), buffer));
 	case 'x':
 	case 'X':
-		handle_hex(va_arg(ap, uint32_t), buffer, isupper(*ptr));
-		break;
+		return (handle_hex(va_arg(ap, uint32_t), buffer, isupper(*ptr)));
 	}
+	return (0);
 }
 
 /**
@@ -114,6 +109,7 @@ int _printf(const char *format, ...)
 	va_list ap;
 	str_builder buffer, flags;
 	char *ptr;
+	int bytes = 0;
 
 	ptr = (char *) format;
 	sb_init(&buffer, BUFFER_SIZE);
@@ -125,7 +121,7 @@ int _printf(const char *format, ...)
 	{
 		if (*ptr != '%')
 		{
-			_write(&buffer, ptr, 1);
+			bytes += _write(&buffer, ptr, 1);
 		}
 		else
 		{
@@ -134,12 +130,12 @@ int _printf(const char *format, ...)
 			ptr = getflag(ptr, &flags);
 			printf("Case: %c\n", *ptr);
 			fflush(stdout);
-			handle_specifier(ap, ptr, &buffer);
+			bytes += handle_specifier(ap, ptr, &buffer);
 		}
 		++ptr;
 	}
-	_write(&buffer, NULL, 0); /* write buffer to stdout */
+	bytes += _write(&buffer, NULL, 0); /* write buffer to stdout */
 	va_end(ap);
-	return (0);
+	return (bytes);
 }
 

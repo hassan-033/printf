@@ -6,11 +6,11 @@
  * @n: integer to be converted.
  * @sb: pointer to the buffer
  *
- * Return: void
+ * Return: nnmber of bytes written
  */
-void handle_int(int n, str_builder *sb)
+int handle_int(int n, str_builder *sb)
 {
-	write_int(n, sb);
+	return (write_int(n, sb));
 }
 
 /**
@@ -19,9 +19,9 @@ void handle_int(int n, str_builder *sb)
  * @n: unsigned integer to be converted.
  * @sb: pointer to the buffer
  *
- * Return: void
+ * Return: number of bytes written
  */
-void handle_uint(uint32_t n, str_builder *sb)
+int handle_uint(uint32_t n, str_builder *sb)
 {
-	write_int(n, sb);
+	return (write_int(n, sb));
 }

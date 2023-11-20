@@ -6,9 +6,9 @@
  * @n: integer to be converted.
  * @sb: pointer to the buffer
  *
- * Return: void
+ * Return: number of bytes written
  */
-void handle_oct(uint32_t n, str_builder *sb)
+int handle_oct(uint32_t n, str_builder *sb)
 {
-	write_oct(n, sb);
+	return (write_oct(n, sb));
 }

@@ -108,7 +108,7 @@ int handle_specifier(va_list ap, char **ptr, str_builder *buffer)
 		{
 			/*return (strlen(*ptr) == 1 ? -1 : _write(buffer, "%", 1));*/
 			b += _write(buffer, "%", 1);
-			b += _write(buffer, "%", 1);
+			b += _write(buffer, *ptr, 1);
 			return (b);
 		}
 	}

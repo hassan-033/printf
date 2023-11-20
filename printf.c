@@ -56,7 +56,9 @@ char *getflag(char *percent_ptr, str_builder *sb)
 		++i;
 	}
 	if (*(start + i) == '\0')
-		return (percent_ptr);
+	{
+		return (start);
+	}
 	if (strchr(SPECIFIERS, *(start + i)) != NULL)
 		return (start + i);
 	return (percent_ptr);
@@ -70,9 +72,9 @@ char *getflag(char *percent_ptr, str_builder *sb)
  *
  * Return: Number of bytes written..
  */
-int handle_specifier(va_list ap, char *ptr, str_builder *buffer)
+int handle_specifier(va_list ap, char **ptr, str_builder *buffer)
 {
-	switch (*ptr)
+	switch (**ptr)
 	{
 	case 'c':
 		return (handle_char(va_arg(ap, int), buffer));
@@ -93,30 +95,39 @@ int handle_specifier(va_list ap, char *ptr, str_builder *buffer)
 		return (handle_oct(va_arg(ap, uint32_t), buffer));
 	case 'x':
 	case 'X':
-		return (handle_hex(va_arg(ap, uint32_t), buffer, isupper(*ptr)));
+		return (handle_hex(va_arg(ap, uint32_t), buffer, isupper(*(*ptr))));
+	default:
+		if (strlen(*ptr) == 0)
+		{
+			(*ptr)--;
+			return (-1);
+		}
+		else
+		{
+			return (strlen(*ptr) == 1 ? -1 : _write(buffer, "%", 1));
+		}
 	}
-	return (0);
 }
 
 /**
  * _printf - produces output according to format.
  * @format: str containing characters, specifiers, flags etc.
  *
- * Return: Length of printed chars.
+ * Return: Length of printed chars;
+ * -1 if @format is NULL.
  */
 int _printf(const char *format, ...)
 {
 	va_list ap;
 	str_builder buffer, flags;
 	char *ptr;
-	int bytes = 0;
+	int bytes = 0, temp = 0;
 
 	ptr = (char *) format;
+	if (ptr == NULL)
+		return (-1);
 	sb_init(&buffer, BUFFER_SIZE);
 	va_start(ap, format);
-
-	/*printf("Buff len %d: \n", buffer.len);
-	fflush(stdout);*/
 
 	while (*ptr)
 	{
@@ -126,18 +137,17 @@ int _printf(const char *format, ...)
 		}
 		else
 		{
-			/*
-			printf("I entered else\n");
-			fflush(stdout);*/
 			ptr = getflag(ptr, &flags);
-			/*printf("Case: %c\n", *ptr);
-			fflush(stdout);*/
-			bytes += handle_specifier(ap, ptr, &buffer);
+			temp = handle_specifier(ap, &ptr, &buffer);
+			if (temp < 0)
+				return (temp);
+			bytes += temp;
 		}
 		++ptr;
 	}
 	bytes += _write(&buffer, NULL, 0); /* write buffer to stdout */
 	va_end(ap);
+	sb_clean(&flags);
 	return (bytes);
 }
 

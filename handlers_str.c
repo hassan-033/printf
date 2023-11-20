@@ -54,7 +54,19 @@ int handle_npstr(char *s, str_builder *sb)
  */
 int handle_str(char *s, str_builder *sb)
 {
-	int s_len = strlen(s);
+	int s_len;
+	int b = 0;
 
-	return (_write(sb, s, s_len));
+	if (s == 0)
+		s = "(null)";
+
+	s_len = strlen(s);
+	while (s_len > 1024)
+	{
+		b += (_write(sb, s, 1024));
+		s_len -= 1024;
+		s += 1024;
+	}
+	b += (_write(sb, s, s_len));
+	return (b);
 }

@@ -22,10 +22,17 @@ int handle_hex(uint32_t n, str_builder *sb, int is_upper)
  *
  * Return: nubmer of bytes written
  */
-int handle_ptr(uint64_t n, str_builder *sb)
+int handle_ptr(void *n, str_builder *sb)
 {
-	int b = _write(sb, "0x", 2);
+	int b;
 
-	b += write_hex(n, sb, 0, 12);
+	if (n == NULL)
+		return (_write(sb, "(nil)", 5));
+
+	b = _write(sb, "0x", 2);
+	if (n == (void *) -1)
+		b += write_hex((uint64_t) n, sb, 0, 16);
+	else
+		b += write_hex((uint64_t) n, sb, 0, 12);
 	return (b);
 }

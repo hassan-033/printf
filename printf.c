@@ -97,7 +97,7 @@ int handle_specifier(va_list ap, char **ptr, str_builder *buffer)
 	case 'X':
 		return (handle_hex(va_arg(ap, uint32_t), buffer, isupper(*(*ptr))));
 	case 'p':
-		return (handle_ptr((uint64_t) va_arg(ap, void *), buffer));
+		return (handle_ptr(va_arg(ap, void *), buffer));
 	default:
 		return (handle_default(ptr, buffer));
 	}

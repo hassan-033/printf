@@ -42,7 +42,7 @@ int handle_bin(uint32_t n, str_builder *sb);
 int handle_oct(uint32_t n, str_builder *sb);
 int handle_hex(uint32_t n, str_builder *sb, int is_upper);
 int handle_default(char **ptr, str_builder *sb);
-int handle_ptr(uint64_t n, str_builder *sb);
+int handle_ptr(void *n, str_builder *sb);
 
 int _printf(const char *format, ...);
 int _write(str_builder *sb, char *s, int s_len);

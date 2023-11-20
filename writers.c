@@ -5,20 +5,21 @@
  * @n: the integer to print.
  * @sb: pointer to the buffer.
  *
- * Return: Nothing..
+ * Return: number of bytes written.
  */
-void write_int(int64_t n, str_builder *sb)
+int write_int(int64_t n, str_builder *sb)
 {
 	int64_t dup = n;
 	int64_t div = 1;
 	char c;
+	int bytes = 0;
 
 
 	if (n == 0)
 	{
 		c = '0';
-		_write(sb, &c, 1);
-		return;
+		bytes += _write(sb, &c, 1);
+		return (bytes);
 	}
 	while (dup / 10 != 0)
 	{
@@ -29,22 +30,23 @@ void write_int(int64_t n, str_builder *sb)
 	if (n < 0)
 	{
 		c = '-';
-		_write(sb, &c, 1);
+		bytes += _write(sb, &c, 1);
 		n *= -1;
 	}
 
 	while (n != 0)
 	{
 		c = (n / div) + 48;
-		_write(sb, &c, 1);
+		bytes += _write(sb, &c, 1);
 		if (n == 10)
 		{
 			c = '0';
-			_write(sb, &c, 1);
+			bytes += _write(sb, &c, 1);
 		}
 		n %= div;
 		div /= 10;
 	}
+	return (bytes);
 }
 
 /**
@@ -52,20 +54,21 @@ void write_int(int64_t n, str_builder *sb)
  * @n: the unsigned integer to print.
  * @sb: pointer to the buffer.
  *
- * Return: Nothing..
+ * Return: number of bytes written
  */
-void write_uint(uint64_t n, str_builder *sb)
+int write_uint(uint64_t n, str_builder *sb)
 {
 	uint64_t dup = n;
 	uint64_t div = 1;
 	char c;
+	int bytes = 0;
 
 
 	if (n == 0)
 	{
 		c = '0';
-		_write(sb, &c, 1);
-		return;
+		bytes += _write(sb, &c, 1);
+		return (bytes);
 	}
 	while (dup / 10 != 0)
 	{
@@ -76,15 +79,16 @@ void write_uint(uint64_t n, str_builder *sb)
 	while (n != 0)
 	{
 		c = (n / div) + 48;
-		_write(sb, &c, 1);
+		bytes += _write(sb, &c, 1);
 		if (n == 10)
 		{
 			c = '0';
-			_write(sb, &c, 1);
+			bytes += _write(sb, &c, 1);
 		}
 		n %= div;
 		div /= 10;
 	}
+	return (bytes);
 }
 
 /**
@@ -93,18 +97,19 @@ void write_uint(uint64_t n, str_builder *sb)
  * @n: the integer to write as binary.
  * @sb: pointer to the buffer.
  *
- * Return: Nothing..
+ * Return: number of bytes written.
  */
-void write_bin(uint64_t n, str_builder *sb)
+int write_bin(uint64_t n, str_builder *sb)
 {
 	char c;
+	int bytes;
 
 	if (n == 0)
-		return;
-	write_bin(n / 2, sb);
+		return (0);
+	bytes = write_bin(n / 2, sb);
 
 	c = (n % 2) + '0';
-	_write(sb, &c, 1);
+	return (bytes + _write(sb, &c, 1));
 }
 
 /**
@@ -113,18 +118,19 @@ void write_bin(uint64_t n, str_builder *sb)
  * @n: the integer to write as octal.
  * @sb: pointer to the buffer.
  *
- * Return: Nothing..
+ * Return: number of bytes written
  */
-void write_oct(uint64_t n, str_builder *sb)
+int write_oct(uint64_t n, str_builder *sb)
 {
 	char c;
+	int bytes;
 
 	if (n == 0)
-		return;
-	write_oct(n / 8, sb);
+		return (0);
+	bytes = write_oct(n / 8, sb);
 
 	c = (n % 8) + '0';
-	_write(sb, &c, 1);
+	return (bytes + _write(sb, &c, 1));
 }
 
 /**
@@ -134,20 +140,21 @@ void write_oct(uint64_t n, str_builder *sb)
  * @sb: pointer to the buffer.
  * @is_upper: whether to write in uppercase.
  *
- * Return: Nothing..
+ * Return: number of bytes written
  */
-void write_hex(uint64_t n, str_builder *sb, int is_upper)
+int write_hex(uint64_t n, str_builder *sb, int is_upper)
 {
 	char c;
+	int bytes;
 
 	if (n == 0)
-		return;
-	write_hex(n / 16, sb, is_upper);
+		return (0);
+	bytes = write_hex(n / 16, sb, is_upper);
 
 	c = (n % 16) + '0';
 	if (c > '9')
 	{
 		c = is_upper ? c + 7 : c + 39;
 	}
-	_write(sb, &c, 1);
+	return (bytes + _write(sb, &c, 1));
 }

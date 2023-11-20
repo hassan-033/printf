@@ -7,9 +7,9 @@
  * @sb: pointer to the buffer
  * @is_upper: print in uppercase
  *
- * Return: void
+ * Return: nubmer of bytes written
  */
-void handle_hex(uint32_t n, str_builder *sb, int is_upper)
+int handle_hex(uint32_t n, str_builder *sb, int is_upper)
 {
-	write_hex(n, sb, is_upper);
+	return (write_hex(n, sb, is_upper));
 }

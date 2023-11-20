@@ -38,12 +38,13 @@ int write_int(int64_t n, str_builder *sb)
 	{
 		c = (n / div) + 48;
 		bytes += _write(sb, &c, 1);
-		if (n == 10)
-		{
-			c = '0';
-			bytes += _write(sb, &c, 1);
-		}
 		n %= div;
+		div /= 10;
+	}
+
+	while (div != 0)
+	{
+		bytes += _write(sb, "0", 1);
 		div /= 10;
 	}
 	return (bytes);
@@ -80,12 +81,13 @@ int write_uint(uint64_t n, str_builder *sb)
 	{
 		c = (n / div) + 48;
 		bytes += _write(sb, &c, 1);
-		if (n == 10)
-		{
-			c = '0';
-			bytes += _write(sb, &c, 1);
-		}
 		n %= div;
+		div /= 10;
+	}
+
+	while (div != 0)
+	{
+		bytes += _write(sb, "0", 1);
 		div /= 10;
 	}
 	return (bytes);

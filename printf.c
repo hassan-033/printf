@@ -114,8 +114,9 @@ int _printf(const char *format, ...)
 	ptr = (char *) format;
 	sb_init(&buffer, BUFFER_SIZE);
 	va_start(ap, format);
-	printf("Buff len %d: \n", buffer.len);
-	fflush(stdout);
+
+	/*printf("Buff len %d: \n", buffer.len);
+	fflush(stdout);*/
 
 	while (*ptr)
 	{
@@ -125,11 +126,12 @@ int _printf(const char *format, ...)
 		}
 		else
 		{
+			/*
 			printf("I entered else\n");
-			fflush(stdout);
+			fflush(stdout);*/
 			ptr = getflag(ptr, &flags);
-			printf("Case: %c\n", *ptr);
-			fflush(stdout);
+			/*printf("Case: %c\n", *ptr);
+			fflush(stdout);*/
 			bytes += handle_specifier(ap, ptr, &buffer);
 		}
 		++ptr;

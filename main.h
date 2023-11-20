@@ -10,7 +10,7 @@
 
 #define BUFFER_SIZE 1024
 #define MAX_FLAG_LEN 6
-#define SPECIFIERS "sSc%diuboxX"
+#define SPECIFIERS "sSc%diuboxXp"
 /**
  * struct str_builder - string builder
  * @buffer: the buffer string (malloc'ed)

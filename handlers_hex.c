@@ -11,5 +11,7 @@
  */
 int handle_hex(uint32_t n, str_builder *sb, int is_upper)
 {
+	if (n == 0)
+		return (_write(sb, "0", 1));
 	return (write_hex(n, sb, is_upper));
 }

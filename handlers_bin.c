@@ -10,5 +10,7 @@
  */
 int handle_bin(uint32_t n, str_builder *sb)
 {
+	if (n == 0)
+		return (_write(sb, "0", 1));
 	return (write_bin(n, sb));
 }

@@ -29,7 +29,7 @@ int handle_npstr(char *s, str_builder *sb)
 
 	while (i < s_len)
 	{
-		if ((*(s + 1) > 0  && *(s + i) < 32) || *(s + i) >= 127)
+		if ((*(s + i) > 0  && *(s + i) < 32) || *(s + i) >= 127)
 		{
 			c = *(s + i);
 			b += (c < 16) ? _write(sb, "\\x0", 3) : _write(sb, "\\x", 2);

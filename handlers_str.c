@@ -80,9 +80,9 @@ int handle_str(char *s, str_builder *sb)
  */
 int handle_default(char **ptr, str_builder *sb)
 {
-	int b = 0;
+	int b = 0, l = strlen(*ptr);
 
-	if (strlen(*ptr) == 0)
+	if (l == 0 || (l == 1 && **ptr == ' '))
 	{
 		(*ptr)--;
 		return (-1);

@@ -10,7 +10,7 @@
  *
  * Return: nubmer of bytes written
  */
-int handle_hex(uint32_t n, str_builder *sb, str_builder *f, int is_upper)
+int handle_hex(uint64_t n, str_builder *sb, str_builder *f, int is_upper)
 {
 	int b = 0;
 

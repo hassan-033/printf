@@ -36,11 +36,11 @@ int sb_is_full(str_builder *sb, int len);
 int handle_char(char c, str_builder *sb);
 int handle_str(char *s, str_builder *sb);
 int handle_npstr(char *s, str_builder *sb);
-int handle_int(int n, str_builder *sb, str_builder *f);
-int handle_uint(uint32_t n, str_builder *sb, str_builder *f);
+int handle_int(int64_t n, str_builder *sb, str_builder *f);
+int handle_uint(uint64_t n, str_builder *sb, str_builder *f);
 int handle_bin(uint32_t n, str_builder *sb);
-int handle_oct(uint32_t n, str_builder *sb, str_builder *f);
-int handle_hex(uint32_t n, str_builder *sb, str_builder *f, int is_upper);
+int handle_oct(uint64_t n, str_builder *sb, str_builder *f);
+int handle_hex(uint64_t n, str_builder *sb, str_builder *f, int is_upper);
 int handle_default(char **ptr, str_builder *sb);
 int handle_ptr(void *n, str_builder *sb);
 
@@ -55,6 +55,12 @@ int write_int(int64_t n, str_builder *sb);
 int write_bin(uint64_t n, str_builder *sb);
 int write_oct(uint64_t n, str_builder *sb);
 int write_hex(uint64_t n, str_builder *sb, int is_upper, int w);
+
+int do_int(va_list ap, str_builder *sb, str_builder *f, char *p);
+int do_uint(va_list ap, str_builder *sb, str_builder *f, char *p);
+int do_oct(va_list ap, str_builder *sb, str_builder *f, char *p);
+int do_hex(va_list ap, str_builder *sb, str_builder *f, char *p);
+
 
 
 #endif /*_MAIN_H*/

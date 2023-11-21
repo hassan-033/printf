@@ -9,7 +9,7 @@
  *
  * Return: nnmber of bytes written
  */
-int handle_int(int n, str_builder *sb, str_builder *f)
+int handle_int(int64_t n, str_builder *sb, str_builder *f)
 {
 	int b = 0;
 
@@ -27,7 +27,7 @@ int handle_int(int n, str_builder *sb, str_builder *f)
  *
  * Return: number of bytes written
  */
-int handle_uint(uint32_t n, str_builder *sb, str_builder *f)
+int handle_uint(uint64_t n, str_builder *sb, str_builder *f)
 {
 	int b = 0;
 

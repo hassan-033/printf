@@ -1,4 +1,5 @@
 #include "main.h"
+#include <stdint.h>
 
 /**
  * _write - performs buffered writes to stdout.
@@ -87,16 +88,16 @@ int handle_spec(va_list ap, char **ptr, str_builder *buf, str_builder *f)
 		return (_write(buf, "%", 1));
 	case 'd':
 	case 'i':
-		return (handle_int(va_arg(ap, int), buf, f));
+		return (do_int(ap, buf, f, *ptr));
 	case 'u':
-		return (handle_uint(va_arg(ap, uint32_t), buf, f));
+		return (do_uint(ap, buf, f, *ptr));
 	case 'b':
 		return (handle_bin(va_arg(ap, uint32_t), buf));
 	case 'o':
-		return (handle_oct(va_arg(ap, uint32_t), buf, f));
+		return (do_oct(ap, buf, f, *ptr));
 	case 'x':
 	case 'X':
-		return (handle_hex(va_arg(ap, uint32_t), buf, f, isupper(*(*ptr))));
+		return (do_hex(ap, buf, f, *ptr));
 	case 'p':
 		return (handle_ptr(va_arg(ap, void *), buf));
 	default:

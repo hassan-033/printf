@@ -9,7 +9,7 @@
  *
  * Return: number of bytes written
  */
-int handle_oct(uint32_t n, str_builder *sb, str_builder *f)
+int handle_oct(uint64_t n, str_builder *sb, str_builder *f)
 {
 	int b = 0;
 

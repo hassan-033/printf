@@ -5,13 +5,21 @@
  * prints integer @n as hexadecimal (supports hex caps).
  * @n: integer to be converted.
  * @sb: pointer to the buffer
+ * @f: pointer to the flags string
  * @is_upper: print in uppercase
  *
  * Return: nubmer of bytes written
  */
-int handle_hex(uint32_t n, str_builder *sb, int is_upper)
+int handle_hex(uint32_t n, str_builder *sb, str_builder *f, int is_upper)
 {
-	return (write_hex(n, sb, is_upper, 1));
+	int b = 0;
+
+	if (is_upper)
+		b += handle_intflags(n, sb, f, 'X');
+	else
+		b += handle_intflags(n, sb, f, 'x');
+	b += write_hex(n, sb, is_upper, 1);
+	return (b);
 }
 
 /**

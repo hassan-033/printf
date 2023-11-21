@@ -65,46 +65,48 @@ char *getflag(char *percent_ptr, str_builder *sb)
 }
 
 /**
- * handle_specifier - handles output for different specifiers
+ * handle_spec - handles output for different specifiers
  * @ap: variadic args list.
- * @ptr: the conversion specifier.
- * @buffer: pointer to the buffer.
+ * @ptr: ptr to ptr of the conversion specifier.
+ * @buf: pointer to the buffer.
+ * @f: pointer to the flags string
  *
  * Return: Number of bytes written..
  */
-int handle_specifier(va_list ap, char **ptr, str_builder *buffer)
+int handle_spec(va_list ap, char **ptr, str_builder *buf, str_builder *f)
 {
 	switch (**ptr)
 	{
 	case 'c':
-		return (handle_char(va_arg(ap, int), buffer));
+		return (handle_char(va_arg(ap, int), buf));
 	case 's':
-		return (handle_str(va_arg(ap, char *), buffer));
+		return (handle_str(va_arg(ap, char *), buf));
 	case 'S':
-		return (handle_npstr(va_arg(ap, char *), buffer));
+		return (handle_npstr(va_arg(ap, char *), buf));
 	case '%':
-		return (_write(buffer, "%", 1));
+		return (_write(buf, "%", 1));
 	case 'd':
 	case 'i':
-		return (handle_int(va_arg(ap, int), buffer));
+		return (handle_int(va_arg(ap, int), buf, f));
 	case 'u':
-		return (handle_uint(va_arg(ap, uint32_t), buffer));
+		return (handle_uint(va_arg(ap, uint32_t), buf, f));
 	case 'b':
-		return (handle_bin(va_arg(ap, uint32_t), buffer));
+		return (handle_bin(va_arg(ap, uint32_t), buf));
 	case 'o':
-		return (handle_oct(va_arg(ap, uint32_t), buffer));
+		return (handle_oct(va_arg(ap, uint32_t), buf, f));
 	case 'x':
 	case 'X':
-		return (handle_hex(va_arg(ap, uint32_t), buffer, isupper(*(*ptr))));
+		return (handle_hex(va_arg(ap, uint32_t), buf, f, isupper(*(*ptr))));
 	case 'p':
-		return (handle_ptr(va_arg(ap, void *), buffer));
+		return (handle_ptr(va_arg(ap, void *), buf));
 	default:
-		return (handle_default(ptr, buffer));
+		return (handle_default(ptr, buf));
 	}
 }
 
 /**
- * _printf - produces output according to format.
+ * _printf - formatted output conversion.
+ * produces output according to a format.
  * @format: str containing characters, specifiers, flags etc.
  *
  * Return: Length of printed chars;
@@ -132,7 +134,7 @@ int _printf(const char *format, ...)
 		else
 		{
 			ptr = getflag(ptr, &flags);
-			temp = handle_specifier(ap, &ptr, &buffer);
+			temp = handle_spec(ap, &ptr, &buffer, &flags);
 			if (temp < 0)
 			{
 				_write(&buffer, NULL, 0);

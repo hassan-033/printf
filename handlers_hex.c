@@ -21,7 +21,8 @@ int handle_hex(uint64_t n, str_builder *sb, str_builder *f,
 		b += handle_intflags(n, 0, sb, f, 'X', w, p);
 	else
 		b += handle_intflags(n, 0, sb, f, 'x', w, p);
-	b += write_hex(n, sb, is_upper, 1);
+	if (strchr(f->buffer, '.') == NULL)
+		b += write_hex(n, sb, is_upper, 1);
 	return (b);
 }
 

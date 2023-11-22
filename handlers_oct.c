@@ -21,6 +21,7 @@ int handle_oct(uint64_t n, str_builder *sb, str_builder *f, int w, int p)
 		b += _write(sb, "0", 1);
 		return (b);
 	}
-	b += write_oct(n, sb);
+	if (strchr(f->buffer, '.') == NULL)
+		b += write_oct(n, sb);
 	return (b);
 }

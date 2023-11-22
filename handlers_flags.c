@@ -68,6 +68,7 @@ int handle_intflags(uint64_t n, int is_negative, str_builder *sb,
 
 	zp = p - d;
 	cp = (zp > 0) ? w - zp : w - d;
+	cp -= is_negative;
 
 	if (cp > 0)
 		b += padding(sb, ' ', cp);
@@ -110,9 +111,9 @@ int handle_strflags(char *s, str_builder *sb, char spec, int w, int p)
 	}
 	else
 	{
-		cp = p - strlen(s);
+		cp = w - (p + strlen(s));
 		if (cp > 0)
-		b += padding(sb, ' ', cp);
+			b += padding(sb, ' ', cp);
 	}
 	return (b);
 }

@@ -54,12 +54,13 @@ int handle_npstr(char *s, str_builder *sb)
  * prints string @s.
  * @s: pointer to the string to be converted.
  * @sb: pointer to the buffer
+ * @f: pointer to the flags string.
  * @w: width of the specifier
  * @p: precision of the specifier
  *
  * Return: number of bytes written
  */
-int handle_str(char *s, str_builder *sb, int w, int p)
+int handle_str(char *s, str_builder *sb, str_builder *f, int w, int p)
 {
 	int s_len;
 	int b = 0;
@@ -75,7 +76,8 @@ int handle_str(char *s, str_builder *sb, int w, int p)
 		s_len -= 1024;
 		s += 1024;
 	}
-	b += (_write(sb, s, s_len));
+	if (strchr(f->buffer, '.') == NULL)
+		b += (_write(sb, s, s_len));
 	return (b);
 }
 

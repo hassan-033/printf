@@ -100,7 +100,8 @@ int handle_default(char **ptr, str_builder *sb)
 	else
 	{
 		b += _write(sb, "%", 1);
-		b += _write(sb, *ptr, 1);
+		if (**ptr != 'h' && **ptr != 'l')
+			b += _write(sb, *ptr, 1);
 		return (b);
 	}
 }

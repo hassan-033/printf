@@ -37,7 +37,7 @@ int do_uint(va_list ap, str_builder *sb, str_builder *f, char *p,
 						int w, int pr)
 {
 	if (*(p - 1) == 'h')
-		return (handle_uint((short) va_arg(ap, uint32_t), sb, f, w, pr));
+		return (handle_uint((uint16_t) va_arg(ap, uint32_t), sb, f, w, pr));
 	else if (*(p - 1) == 'l')
 		return (handle_uint(va_arg(ap, uint64_t), sb, f, w, pr));
 	return (handle_uint(va_arg(ap, uint32_t), sb, f, w, pr));
@@ -58,10 +58,10 @@ int do_uint(va_list ap, str_builder *sb, str_builder *f, char *p,
 int do_oct(va_list ap, str_builder *sb, str_builder *f, char *p, int w, int pr)
 {
 	if (*(p - 1) == 'h')
-		return (handle_oct((short) va_arg(ap, int), sb, f, w, pr));
+		return (handle_oct((uint16_t) va_arg(ap, uint32_t), sb, f, w, pr));
 	else if (*(p - 1) == 'l')
-		return (handle_oct(va_arg(ap, long), sb, f, w, pr));
-	return (handle_oct(va_arg(ap, int), sb, f, w, pr));
+		return (handle_oct(va_arg(ap, uint64_t), sb, f, w, pr));
+	return (handle_oct(va_arg(ap, uint32_t), sb, f, w, pr));
 }
 
 /**
@@ -79,7 +79,8 @@ int do_oct(va_list ap, str_builder *sb, str_builder *f, char *p, int w, int pr)
 int do_hex(va_list ap, str_builder *sb, str_builder *f, char *p, int w, int pr)
 {
 	if (*(p - 1) == 'h')
-		return (handle_hex((short) va_arg(ap, uint32_t), sb, f, isupper(*p), w, pr));
+		return (handle_hex((uint16_t) va_arg(ap, uint32_t), sb, f, isupper(*p),
+										 w, pr));
 	else if (*(p - 1) == 'l')
 		return (handle_hex(va_arg(ap, uint64_t), sb, f, isupper(*p), w, pr));
 	return (handle_hex(va_arg(ap, uint32_t), sb, f, isupper(*p), w, pr));

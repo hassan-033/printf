@@ -17,15 +17,15 @@ int handle_oct(uint64_t n, str_builder *sb, str_builder *f, int w, int p)
 	int cp = int_align_pads(n, 0, 'o', w, p);
 
 	b += handle_intflags(n, 0, sb, f, 'o', w, p);
-	if (n == 0)
-	{
-		b += _write(sb, "0", 1);
-		return (b);
-	}
 	if (p > 0 || strchr(f->buffer, '.') == NULL)
 	{
+		if (n == 0)
+		{
+			b += _write(sb, "0", 1);
+			return (b);
+		}
 		b += write_oct(n, sb);
-		
+
 		if (cp > 0 && hzflag == 1)
 			b += padding(sb, ' ', cp);
 	}

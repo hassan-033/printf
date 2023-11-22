@@ -27,7 +27,7 @@ int handle_int(int64_t n, str_builder *sb, str_builder *f, int w, int p)
 	if (p > 0 || strchr(f->buffer, '.') == NULL)
 	{
 		b += write_int(n, sb);
-		
+
 		if (cp > 0 && hzflag == 1)
 			b += padding(sb, ' ', cp);
 	}
@@ -54,7 +54,7 @@ int handle_uint(uint64_t n, str_builder *sb, str_builder *f, int w, int p)
 	if (p > 0 || strchr(f->buffer, '.') == NULL)
 	{
 		b += write_uint(n, sb);
-		
+
 		if (cp > 0 && hzflag == 1)
 			b += padding(sb, ' ', cp);
 	}

@@ -25,7 +25,7 @@ int handle_hex(uint64_t n, str_builder *sb, str_builder *f,
 	if (p > 0 || strchr(f->buffer, '.') == NULL)
 	{
 		b += write_hex(n, sb, is_upper, 1);
-		
+
 		if (cp > 0 && hzflag == 1)
 			b += padding(sb, ' ', cp);
 	}

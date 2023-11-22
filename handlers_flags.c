@@ -81,7 +81,7 @@ int hyphen_zero_flag(int w, str_builder *f)
 int handle_intflags(uint64_t n, int is_negative, str_builder *sb,
 										str_builder *f, char spec, int w, int p)
 {
-	int b = 0, d = digits(n, spec);
+	int b = 0;
 	int zp, cp; /* zero padding, char padding */
 	int hzflag = hyphen_zero_flag(w, f);
 	char c = ' ';

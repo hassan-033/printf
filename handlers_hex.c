@@ -15,14 +15,20 @@
 int handle_hex(uint64_t n, str_builder *sb, str_builder *f,
 							 int is_upper, int w, int p)
 {
-	int b = 0;
+	int b = 0, hzflag = hyphen_zero_flag(w, f);
+	int cp = int_align_pads(n, 0, 'x', w, p);
 
 	if (is_upper)
 		b += handle_intflags(n, 0, sb, f, 'X', w, p);
 	else
 		b += handle_intflags(n, 0, sb, f, 'x', w, p);
 	if (p > 0 || strchr(f->buffer, '.') == NULL)
+	{
 		b += write_hex(n, sb, is_upper, 1);
+		
+		if (cp > 0 && hzflag == 1)
+			b += padding(sb, ' ', cp);
+	}
 	return (b);
 }
 

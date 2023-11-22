@@ -1,8 +1,4 @@
 #include "main.h"
-/*
- * #define NUM_FLAGS "iudxXo"
- * #define HASH_FLAGS "xXo"
- */
 
 /**
  * handle_plus_space - handles the ' '  & '+' flag for int specifiers.
@@ -48,6 +44,29 @@ int handle_hash(int64_t n, str_builder *sb, char spec)
 }
 
 /**
+ * hyphen_zero_flag - gets whether the '-' or '0'
+ * or none is set.
+ * @w: width field for the specifier.
+ * @f: pointer to the flags string.
+ *
+ * Return: 1 if hyphen is set, 2 if zero is set;
+ * otherwise 0;
+ */
+int hyphen_zero_flag(int w, str_builder *f)
+{
+	int hzflag = 0; /* hyphen zero flag*/
+
+	if (w == 0)
+		return (0);
+
+	if (strchr(f->buffer, '-'))
+		hzflag = 1;
+	else if (strchr(f->buffer, '0'))
+		hzflag = 2;
+	return (hzflag);
+}
+
+/**
  * handle_intflags - handles the flags for int specifiers.
  * @n: integer to be converted.
  * @is_negative: whether @n is supposed to be negative.
@@ -63,16 +82,19 @@ int handle_intflags(uint64_t n, int is_negative, str_builder *sb,
 										str_builder *f, char spec, int w, int p)
 {
 	int b = 0, d = digits(n, spec);
-	int zp = 0; /* zero padding */
-	int cp = 0; /* char padding */
+	int zp, cp; /* zero padding, char padding */
+	int hzflag = hyphen_zero_flag(w, f);
+	char c = ' ';
 
-	zp = p - d;
-	cp = (zp > 0) ? w - zp : w - d;
-	cp -= is_negative;
+	zp = int_precision_pads(n, spec, p);
+	cp = int_align_pads(n, is_negative, spec, w, p);
 
 	if (cp > 0)
-		b += padding(sb, ' ', cp);
-
+	{
+		if (hzflag == 2)
+			c = '0';
+		b += padding(sb, c, cp);
+	}
 	if (strchr(f->buffer, '+'))
 		b += handle_plus_space(n, sb, 0);
 	else if (strchr(f->buffer, ' '))

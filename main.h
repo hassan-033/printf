@@ -48,6 +48,7 @@ int handle_ptr(void *n, str_builder *sb);
 int handle_intflags(uint64_t n, int is_negative, str_builder *sb,
 										str_builder *f,	char spec, int w, int p);
 int handle_strflags(char *s, str_builder *sb, char spec, int w, int p);
+int hyphen_zero_flag(int w, str_builder *f);
 
 
 int _printf(const char *format, ...);
@@ -75,5 +76,7 @@ char *getflag(char *percent_ptr, str_builder *sb);
 int isnum(char c);
 int digits(int64_t n, char spec);
 int padding(str_builder *sb, char c, int count);
+int int_align_pads(uint64_t n, int is_negative, char spec, int w, int p);
+int int_precision_pads(uint64_t n, char spec, int p);
 
 #endif /*_MAIN_H*/

@@ -69,3 +69,38 @@ int padding(str_builder *sb, char c, int count)
 
 	return (b);
 }
+
+/**
+ * int_align_pads - get number of pads for width alignment
+ * @n: the integer to convert
+ * @is_negative: whether the integer is supposed to be negative.
+ * @spec: the specifier.
+ * @w: width.
+ * @p: precision.
+ *
+ * Return: Numbr of pads needed for alignment;
+ */
+int int_align_pads(uint64_t n, int is_negative, char spec, int w, int p)
+{
+	int d = digits(n, spec);
+	int cp, zp = int_precision_pads(n, spec, p); /* zero padding, char padding */
+
+	cp = (zp > 0) ? w - zp : w - d;
+	cp -= is_negative;
+	return (cp);
+}
+
+/**
+ * int_precision_pads - get number of pads for precision.
+ * @n: the integer to convert
+ * @spec: the specifier.
+ * @p: precision.
+ *
+ * Return: Numbr of pads needed for precision;
+ */
+int int_precision_pads(uint64_t n, char spec, int p)
+{
+	int d = digits(n, spec);
+
+	return (p - d);
+}

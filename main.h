@@ -36,6 +36,9 @@ int sb_is_full(str_builder *sb, int len);
 int handle_char(char c, str_builder *sb, int w);
 int handle_str(char *s, str_builder *sb, str_builder *f, int w, int p);
 int handle_npstr(char *s, str_builder *sb);
+int handle_rot13(char *s, str_builder *sb);
+int handle_revstr(char *s, str_builder *sb);
+
 int handle_int(int64_t n, str_builder *sb, str_builder *f, int w, int p);
 int handle_uint(uint64_t n, str_builder *sb, str_builder *f, int w, int p);
 int handle_bin(uint32_t n, str_builder *sb);

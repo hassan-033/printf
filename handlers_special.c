@@ -42,8 +42,8 @@ int handle_revstr(char *s, str_builder *sb)
 	int b = 0;
 
 	s_len = strlen(s);
-	
-	while(--s_len >= 0)
+
+	while (--s_len >= 0)
 		b += _write(sb, (s + s_len), 1);
 
 	return (b);

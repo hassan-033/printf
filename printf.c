@@ -35,69 +35,41 @@ int _write(str_builder *sb, char *s, int s_len)
 }
 
 /**
- * getflag - gets flag for a conversion specifier.
- * @percent_ptr: points to the % that begins a specifier.
- * @sb: pointer to the buffer.
- *
- * Return: if it finds a specifier, pointer to specifier;
- * otherwise, pointer to @percent_ptr;
- */
-char *getflag(char *percent_ptr, str_builder *sb)
-{
-	char *start = percent_ptr + 1;
-	int i = 0;
-
-	sb_init(sb, MAX_FLAG_LEN);
-
-	while (i < MAX_FLAG_LEN && *(start + i) != '\0')
-	{
-		if (strchr(SPECIFIERS, *(start + i)) != NULL)
-			return (start + i);
-		sb_append(sb, (start + i), 1);
-		++i;
-	}
-	if (*(start + i) == '\0')
-	{
-		return (start);
-	}
-	if (strchr(SPECIFIERS, *(start + i)) != NULL)
-		return (start + i);
-	return (percent_ptr);
-}
-
-/**
  * handle_spec - handles output for different specifiers
  * @ap: variadic args list.
  * @ptr: ptr to ptr of the conversion specifier.
  * @buf: pointer to the buffer.
  * @f: pointer to the flags string
+ * @w: the width for specifier.
+ * @p: the precision for specifier.
  *
  * Return: Number of bytes written..
  */
-int handle_spec(va_list ap, char **ptr, str_builder *buf, str_builder *f)
+int handle_spec(va_list ap, char **ptr, str_builder *buf,
+								str_builder *f,	int w, int p)
 {
 	switch (**ptr)
 	{
 	case 'c':
-		return (handle_char(va_arg(ap, int), buf));
+		return (handle_char(va_arg(ap, int), buf, w));
 	case 's':
-		return (handle_str(va_arg(ap, char *), buf));
+		return (handle_str(va_arg(ap, char *), buf, w, p));
 	case 'S':
 		return (handle_npstr(va_arg(ap, char *), buf));
 	case '%':
 		return (_write(buf, "%", 1));
 	case 'd':
 	case 'i':
-		return (do_int(ap, buf, f, *ptr));
+		return (do_int(ap, buf, f, *ptr, w, p));
 	case 'u':
-		return (do_uint(ap, buf, f, *ptr));
+		return (do_uint(ap, buf, f, *ptr, w, p));
 	case 'b':
 		return (handle_bin(va_arg(ap, uint32_t), buf));
 	case 'o':
-		return (do_oct(ap, buf, f, *ptr));
+		return (do_oct(ap, buf, f, *ptr, w, p));
 	case 'x':
 	case 'X':
-		return (do_hex(ap, buf, f, *ptr));
+		return (do_hex(ap, buf, f, *ptr, w, p));
 	case 'p':
 		return (handle_ptr(va_arg(ap, void *), buf));
 	default:
@@ -118,7 +90,7 @@ int _printf(const char *format, ...)
 	va_list ap;
 	str_builder buffer, flags;
 	char *ptr;
-	int bytes = 0, temp = 0;
+	int w, p, bytes = 0, temp = 0;
 
 	ptr = (char *) format;
 	if (ptr == NULL)
@@ -135,7 +107,9 @@ int _printf(const char *format, ...)
 		else
 		{
 			ptr = getflag(ptr, &flags);
-			temp = handle_spec(ap, &ptr, &buffer, &flags);
+			w = getwidth(ap, &flags);
+			p = getprecision(ap, &flags);
+			temp = handle_spec(ap, &ptr, &buffer, &flags, w, p);
 			if (temp < 0)
 			{
 				_write(&buffer, NULL, 0);

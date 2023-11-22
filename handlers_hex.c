@@ -7,17 +7,20 @@
  * @sb: pointer to the buffer
  * @f: pointer to the flags string
  * @is_upper: print in uppercase
+ * @w: width of the specifier
+ * @p: precision of the specifier
  *
  * Return: nubmer of bytes written
  */
-int handle_hex(uint64_t n, str_builder *sb, str_builder *f, int is_upper)
+int handle_hex(uint64_t n, str_builder *sb, str_builder *f,
+							 int is_upper, int w, int p)
 {
 	int b = 0;
 
 	if (is_upper)
-		b += handle_intflags(n, sb, f, 'X');
+		b += handle_intflags(n, 0, sb, f, 'X', w, p);
 	else
-		b += handle_intflags(n, sb, f, 'x');
+		b += handle_intflags(n, 0, sb, f, 'x', w, p);
 	b += write_hex(n, sb, is_upper, 1);
 	return (b);
 }

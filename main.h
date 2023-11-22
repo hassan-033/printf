@@ -33,34 +33,47 @@ void sb_append(str_builder *sb, char *s, int n);
 void sb_clean(str_builder *sb);
 int sb_is_full(str_builder *sb, int len);
 
-int handle_char(char c, str_builder *sb);
-int handle_str(char *s, str_builder *sb);
+int handle_char(char c, str_builder *sb, int w);
+int handle_str(char *s, str_builder *sb, int w, int p);
 int handle_npstr(char *s, str_builder *sb);
-int handle_int(int64_t n, str_builder *sb, str_builder *f);
-int handle_uint(uint64_t n, str_builder *sb, str_builder *f);
+int handle_int(int64_t n, str_builder *sb, str_builder *f, int w, int p);
+int handle_uint(uint64_t n, str_builder *sb, str_builder *f, int w, int p);
 int handle_bin(uint32_t n, str_builder *sb);
-int handle_oct(uint64_t n, str_builder *sb, str_builder *f);
-int handle_hex(uint64_t n, str_builder *sb, str_builder *f, int is_upper);
+int handle_oct(uint64_t n, str_builder *sb, str_builder *f, int w, int p);
+int handle_hex(uint64_t n, str_builder *sb, str_builder *f,
+							 int is_upper, int w, int p);
 int handle_default(char **ptr, str_builder *sb);
 int handle_ptr(void *n, str_builder *sb);
 
-int handle_intflags(int64_t n, str_builder *sb, str_builder *f, char spec);
+int handle_intflags(uint64_t n, int is_negative, str_builder *sb,
+										str_builder *f,	char spec, int w, int p);
+int handle_strflags(char *s, str_builder *sb, char spec, int w, int p);
 
 
 int _printf(const char *format, ...);
 int _write(str_builder *sb, char *s, int s_len);
-char *getflag(char *percent_ptr, str_builder *sb);
 
 int write_int(int64_t n, str_builder *sb);
+int write_uint(uint64_t n, str_builder *sb);
 int write_bin(uint64_t n, str_builder *sb);
 int write_oct(uint64_t n, str_builder *sb);
 int write_hex(uint64_t n, str_builder *sb, int is_upper, int w);
 
-int do_int(va_list ap, str_builder *sb, str_builder *f, char *p);
-int do_uint(va_list ap, str_builder *sb, str_builder *f, char *p);
-int do_oct(va_list ap, str_builder *sb, str_builder *f, char *p);
-int do_hex(va_list ap, str_builder *sb, str_builder *f, char *p);
+int do_int(va_list ap, str_builder *sb, str_builder *f, char *p,
+						int w, int pr);
+int do_uint(va_list ap, str_builder *sb, str_builder *f, char *p,
+						int w, int pr);
+int do_oct(va_list ap, str_builder *sb, str_builder *f, char *p,
+						int w, int pr);
+int do_hex(va_list ap, str_builder *sb, str_builder *f, char *p,
+						int w, int pr);
 
+int getprecision(va_list ap, str_builder *f);
+int getwidth(va_list ap, str_builder *f);
+char *getflag(char *percent_ptr, str_builder *sb);
 
+int isnum(char c);
+int digits(int64_t n, char spec);
+int padding(str_builder *sb, char c, int count);
 
 #endif /*_MAIN_H*/

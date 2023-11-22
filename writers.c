@@ -14,23 +14,17 @@ int write_int(int64_t n, str_builder *sb)
 	char c;
 	int bytes = 0;
 
-
 	if (n == 0)
 	{
 		c = '0';
 		bytes += _write(sb, &c, 1);
 		return (bytes);
 	}
+
 	while (dup / 10 != 0)
 	{
 		div *= 10;
 		dup /= 10;
-	}
-
-	if (n < 0)
-	{
-		c = '-';
-		bytes += _write(sb, &c, 1);
 	}
 
 	while (n != 0)

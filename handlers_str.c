@@ -5,12 +5,17 @@
  * prints character @c.
  * @c: pointer to the character to be converted.
  * @sb: pointer to the buffer
+ * @w: width of the specifier
  *
  * Return: number of bytes written.
  */
-int handle_char(char c, str_builder *sb)
+int handle_char(char c, str_builder *sb, int w)
 {
-	return (_write(sb, &c, 1));
+	int b = 0;
+
+	b += handle_strflags(&c, sb, 'c', w, 0);
+	b += _write(sb, &c, 1);
+	return (b);
 }
 
 /**
@@ -49,10 +54,12 @@ int handle_npstr(char *s, str_builder *sb)
  * prints string @s.
  * @s: pointer to the string to be converted.
  * @sb: pointer to the buffer
+ * @w: width of the specifier
+ * @p: precision of the specifier
  *
  * Return: number of bytes written
  */
-int handle_str(char *s, str_builder *sb)
+int handle_str(char *s, str_builder *sb, int w, int p)
 {
 	int s_len;
 	int b = 0;
@@ -60,6 +67,7 @@ int handle_str(char *s, str_builder *sb)
 	if (s == 0)
 		s = "(null)";
 
+	b += handle_strflags(s, sb, 's', w, p);
 	s_len = strlen(s);
 	while (s_len > 1024)
 	{

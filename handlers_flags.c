@@ -92,17 +92,21 @@ int handle_intflags(uint64_t n, int is_negative, str_builder *sb,
 	if (cp > 0)
 	{
 		if (hzflag == 2)
+		{
 			c = '0';
+			if (is_negative)
+				b += _write(sb, "-", 1);
+		}
 		b += padding(sb, c, cp);
 	}
+
 	if (strchr(f->buffer, '+'))
 		b += handle_plus_space(n, sb, 0);
 	else if (strchr(f->buffer, ' '))
 		b += handle_plus_space(n, sb, 1);
 
-	if (is_negative)
+	if (is_negative && c == ' ')
 		b += _write(sb, "-", 1);
-
 	if (strchr(f->buffer, '#'))
 		b += handle_hash(n, sb, spec);
 

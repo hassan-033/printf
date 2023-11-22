@@ -16,7 +16,7 @@ int handle_rot13(char *s, str_builder *sb)
 	char *rot =   "nopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLM";
 	char *j, c;
 
-	while (*(s + i++))
+	while (*(s + i))
 	{
 		j = strchr(alpha, *(s + i));
 		if (j != NULL)
@@ -24,6 +24,7 @@ int handle_rot13(char *s, str_builder *sb)
 		else
 			c = *(s + i);
 		b += _write(sb, &c, 1);
+		i++;
 	}
 	return (b);
 }
@@ -48,4 +49,3 @@ int handle_revstr(char *s, str_builder *sb)
 
 	return (b);
 }
-

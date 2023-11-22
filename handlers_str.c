@@ -76,7 +76,7 @@ int handle_str(char *s, str_builder *sb, str_builder *f, int w, int p)
 		s_len -= 1024;
 		s += 1024;
 	}
-	if (strchr(f->buffer, '.') == NULL)
+	if (p > 0 || strchr(f->buffer, '.') == NULL)
 		b += (_write(sb, s, s_len));
 	return (b);
 }

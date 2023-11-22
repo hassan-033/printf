@@ -56,6 +56,10 @@ int handle_spec(va_list ap, char **ptr, str_builder *buf,
 		return (handle_str(va_arg(ap, char *), buf, f, w, p));
 	case 'S':
 		return (handle_npstr(va_arg(ap, char *), buf));
+	case 'r':
+		return (handle_revstr(va_arg(ap, char *), buf));
+	case 'R':
+		return (handle_rot13(va_arg(ap, char *), buf));
 	case '%':
 		return (_write(buf, "%", 1));
 	case 'd':

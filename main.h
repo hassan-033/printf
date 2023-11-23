@@ -33,7 +33,7 @@ void sb_append(str_builder *sb, char *s, int n);
 void sb_clean(str_builder *sb);
 int sb_is_full(str_builder *sb, int len);
 
-int handle_char(char c, str_builder *sb, int w);
+int handle_char(char c, str_builder *sb, str_builder *f, int w);
 int handle_str(char *s, str_builder *sb, str_builder *f, int w, int p);
 int handle_npstr(char *s, str_builder *sb);
 int handle_rot13(char *s, str_builder *sb);
@@ -49,8 +49,8 @@ int handle_default(char **ptr, str_builder *sb);
 int handle_ptr(void *n, str_builder *sb);
 
 int handle_intflags(uint64_t n, int is_negative, str_builder *sb,
-										str_builder *f,	char spec, int w, int p);
-int handle_strflags(char *s, str_builder *sb, char spec, int w, int p);
+									str_builder *f,	char spec, int hzflag, int cp, int zp);
+int handle_strflags(str_builder *sb, int hzflag, int cp);
 int hyphen_zero_flag(int w, str_builder *f);
 
 

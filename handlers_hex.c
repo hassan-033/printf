@@ -17,11 +17,12 @@ int handle_hex(uint64_t n, str_builder *sb, str_builder *f,
 {
 	int b = 0, hzflag = hyphen_zero_flag(w, f);
 	int cp = int_align_pads(n, 0, 'x', w, p);
+	int zp = int_precision_pads(n, 'x', p);
 
 	if (is_upper)
-		b += handle_intflags(n, 0, sb, f, 'X', w, p);
+		b += handle_intflags(n, 0, sb, f, 'X', hzflag, cp, zp);
 	else
-		b += handle_intflags(n, 0, sb, f, 'x', w, p);
+		b += handle_intflags(n, 0, sb, f, 'x', hzflag, cp, zp);
 	if (p > 0 || strchr(f->buffer, '.') == NULL)
 	{
 		b += write_hex(n, sb, is_upper, 1);

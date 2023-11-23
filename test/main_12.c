@@ -12,8 +12,8 @@ int main(void)
 {
 	int len, len2;
 
-	len = _printf("%-*s%-*c", 6, "Best", 6, '\n');
-	len2 = printf("%-*s%-*c", 6, "Best", 6, '\n');
+	len = _printf("%.*s%c", 6, "Best", '\n');
+	len2 = printf("%.*s%c", 6, "Best", '\n');
 	fflush(stdout);
 	if (len != len2)
 	{
@@ -21,8 +21,8 @@ int main(void)
 		fflush(stdout);
 		return (1);
 	}
-	len = _printf("%-*s%-*c", 16, "Best", 1, '\n');
-	len2 = printf("%-*s%-*c", 16, "Best", 1, '\n');
+	len = _printf("%.*s%c", 16, "Best", '\n');
+	len2 = printf("%.*s%c", 16, "Best", '\n');
 	fflush(stdout);
 	if (len != len2)
 	{

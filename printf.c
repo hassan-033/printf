@@ -51,7 +51,7 @@ int handle_spec(va_list ap, char **ptr, str_builder *buf,
 	switch (**ptr)
 	{
 	case 'c':
-		return (handle_char(va_arg(ap, int), buf, w));
+		return (handle_char(va_arg(ap, int), buf, f, w));
 	case 's':
 		return (handle_str(va_arg(ap, char *), buf, f, w, p));
 	case 'S':

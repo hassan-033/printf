@@ -10,27 +10,28 @@
  */
 int getwidth(va_list ap, str_builder *f)
 {
-	int w = 0, end = f->len - 1;
+	int w = 0, end = f->len - 1, i;
 	char *p, *dec_p = strchr(f->buffer, '.');
 
 	if (f->len == 0)
 		return (0);
 
 	if (dec_p)
-	{
 		p = dec_p - 1;
-		if (isnum(*p))
-			w = *p - '0';
-		else if (*p == '*')
-			w = va_arg(ap, int);
-	}
 	else
-	{
 		p = f->buffer + end;
-		if (isnum(*p))
-			w = *p - '0';
-		else if (*p == '*')
-			w = va_arg(ap, int);
+
+	i = p - f->buffer;
+	if (i >= 0 && (isnum(*p)))
+	{
+		w += *p - '0';
+		--i;
+		if (i >= 0 && isnum(*(--p))) /* Trying to support 2 digit width */
+			w += (10 * (*p - '0'));
+	}
+	else if (i >= 0 && *p == '*')
+	{
+		w = va_arg(ap, int);
 	}
 	return (w);
 }
@@ -45,7 +46,7 @@ int getwidth(va_list ap, str_builder *f)
  */
 int getprecision(va_list ap, str_builder *f)
 {
-	int pr = 0, end = f->len - 1;
+	int pr = 0, end = f->len - 1, i;
 	char *p, *dec_p = strchr(f->buffer, '.');
 
 	if (f->len == 0)
@@ -54,13 +55,24 @@ int getprecision(va_list ap, str_builder *f)
 	if (dec_p)
 	{
 		p = dec_p + 1;
-		if (p > (f->buffer + end))
-			return (0);
+		i = f->buffer - p;
 
-		if (isnum(*p))
-			pr = *p - '0';
-		else if (*p == '*')
+		if (i <= end && isnum(*p))
+		{
+			if (i + 1 <= end && isnum(*(p + 1))) /* support 2 digit precision */
+			{
+				pr += *(p + 1) - '0';
+				pr += (10 * (*p - '0'));
+			}
+			else
+			{
+				pr += *p - '0';
+			}
+		}
+		else if (i <= end && *p == '*')
+		{
 			pr = va_arg(ap, int);
+		}
 	}
 	return (pr);
 }

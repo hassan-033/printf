@@ -15,8 +15,9 @@ int handle_oct(uint64_t n, str_builder *sb, str_builder *f, int w, int p)
 {
 	int b = 0, hzflag = hyphen_zero_flag(w, f);
 	int cp = int_align_pads(n, 0, 'o', w, p);
+	int zp = int_precision_pads(n, 'o', p);
 
-	b += handle_intflags(n, 0, sb, f, 'o', w, p);
+	b += handle_intflags(n, 0, sb, f, 'o', hzflag, cp, zp);
 	if (p > 0 || strchr(f->buffer, '.') == NULL)
 	{
 		if (n == 0)

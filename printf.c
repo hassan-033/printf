@@ -75,7 +75,7 @@ int handle_spec(va_list ap, char **ptr, str_builder *buf,
 	case 'X':
 		return (do_hex(ap, buf, f, *ptr, w, p));
 	case 'p':
-		return (handle_ptr(va_arg(ap, void *), buf));
+		return (handle_ptr(va_arg(ap, void *), buf, f, w));
 	default:
 		return (handle_default(ptr, buf));
 	}

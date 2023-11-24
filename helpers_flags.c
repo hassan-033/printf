@@ -17,9 +17,12 @@ int getwidth(va_list ap, str_builder *f)
 		return (0);
 
 	if (dec_p)
-		p = dec_p - 1;
+		p = (dec_p - 1);
 	else
 		p = f->buffer + end;
+
+	if ((*p == 'l' || *p == 'h') && (p - 1 >= f->buffer))
+		--p;
 
 	i = p - f->buffer;
 	if (i >= 0 && (isnum(*p)))

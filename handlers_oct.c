@@ -14,21 +14,28 @@
 int handle_oct(uint64_t n, str_builder *sb, str_builder *f, int w, int p)
 {
 	int b = 0, hzflag = hyphen_zero_flag(w, f);
-	int cp = int_align_pads(n, 0, 'o', w, p);
+	char is_zero_p = (p == 0) && (strchr(f->buffer, '.') != NULL);
 	int zp = int_precision_pads(n, 'o', p);
+	int cp = int_align_pads(n, 0, 'o', w, p, zp);
 
 	b += handle_intflags(n, 0, sb, f, 'o', hzflag, cp, zp);
-	if (p > 0 || strchr(f->buffer, '.') == NULL)
+	if (is_zero_p && n == 0 && w == 0)
+		return (0);
+
+	if (!(is_zero_p && n == 0 && w != 0))
 	{
 		if (n == 0)
-		{
 			b += _write(sb, "0", 1);
-			return (b);
-		}
-		b += write_oct(n, sb);
-
-		if (cp > 0 && hzflag == 1)
-			b += padding(sb, ' ', cp);
+		else
+			b += write_oct(n, sb);
 	}
+
+	if (cp > 0 && hzflag == 1)
+	{
+		if (strchr(f->buffer, '+') || strchr(f->buffer, ' '))
+			--cp;
+		b += padding(sb, ' ', cp);
+	}
+
 	return (b);
 }

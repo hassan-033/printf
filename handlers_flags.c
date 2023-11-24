@@ -108,8 +108,6 @@ int handle_intflags(uint64_t n, int is_negative, str_builder *sb,
 			if (is_negative)
 				b += _write(sb, "-", 1);
 		}
-		if (hzflag != 1)
-			b += padding(sb, c, cp);
 	}
 
 	if (strchr(f->buffer, '+') && !is_negative)
@@ -117,7 +115,15 @@ int handle_intflags(uint64_t n, int is_negative, str_builder *sb,
 	else if (strchr(f->buffer, ' ') && !is_negative)
 		b += handle_plus_space(n, sb, 1);
 
-	if (is_negative && hzflag != 2)
+	if (cp > 0)
+	{
+		if ((strchr(f->buffer, '+') || strchr(f->buffer, ' ')) && !is_negative)
+			--cp;
+		if (hzflag != 1)
+			b += padding(sb, c, cp);
+	}
+
+	if (is_negative && (hzflag != 2 || (cp <= 0 && hzflag == 2)))
 		b += _write(sb, "-", 1);
 	if (strchr(f->buffer, '#'))
 		b += handle_hash(n, sb, spec);

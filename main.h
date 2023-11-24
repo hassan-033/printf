@@ -46,7 +46,7 @@ int handle_oct(uint64_t n, str_builder *sb, str_builder *f, int w, int p);
 int handle_hex(uint64_t n, str_builder *sb, str_builder *f,
 							 int is_upper, int w, int p);
 int handle_default(char **ptr, str_builder *sb);
-int handle_ptr(void *n, str_builder *sb);
+int handle_ptr(void *n, str_builder *sb, str_builder *f, int w);
 
 int handle_intflags(uint64_t n, int is_negative, str_builder *sb,
 									str_builder *f,	char spec, int hzflag, int cp, int zp);
@@ -79,7 +79,8 @@ char *getflag(char *percent_ptr, str_builder *sb);
 int isnum(char c);
 int digits(int64_t n, char spec);
 int padding(str_builder *sb, char c, int count);
-int int_align_pads(uint64_t n, int is_negative, char spec, int w, int p);
+int int_align_pads(uint64_t n, int is_negative, int is_zero_p,
+				char spec, int w, int zp);
 int int_precision_pads(uint64_t n, char spec, int p);
 
 #endif /*_MAIN_H*/

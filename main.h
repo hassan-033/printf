@@ -44,12 +44,12 @@ int handle_uint(uint64_t n, str_builder *sb, str_builder *f, int w, int p);
 int handle_bin(uint32_t n, str_builder *sb);
 int handle_oct(uint64_t n, str_builder *sb, str_builder *f, int w, int p);
 int handle_hex(uint64_t n, str_builder *sb, str_builder *f,
-							 int is_upper, int w, int p);
+		int is_upper, int w, int p);
 int handle_default(char **ptr, str_builder *sb);
 int handle_ptr(void *n, str_builder *sb, str_builder *f, int w);
 
 int handle_intflags(uint64_t n, int is_negative, str_builder *sb,
-									str_builder *f,	char spec, int hzflag, int cp, int zp);
+		str_builder *f,	char spec, int hzflag, int cp, int zp);
 int handle_strflags(str_builder *sb, int hzflag, int cp);
 int hyphen_zero_flag(int w, str_builder *f);
 
@@ -64,13 +64,13 @@ int write_oct(uint64_t n, str_builder *sb);
 int write_hex(uint64_t n, str_builder *sb, int is_upper, int w);
 
 int do_int(va_list ap, str_builder *sb, str_builder *f, char *p,
-						int w, int pr);
+		int w, int pr);
 int do_uint(va_list ap, str_builder *sb, str_builder *f, char *p,
-						int w, int pr);
+		int w, int pr);
 int do_oct(va_list ap, str_builder *sb, str_builder *f, char *p,
-						int w, int pr);
+		int w, int pr);
 int do_hex(va_list ap, str_builder *sb, str_builder *f, char *p,
-						int w, int pr);
+		int w, int pr);
 
 int getprecision(va_list ap, str_builder *f);
 int getwidth(va_list ap, str_builder *f);
@@ -80,7 +80,7 @@ int isnum(char c);
 int digits(int64_t n, char spec);
 int padding(str_builder *sb, char c, int count);
 int int_align_pads(uint64_t n, int is_negative, int is_zero_p,
-				char spec, int w, int zp);
+		char spec, int w, int zp);
 int int_precision_pads(uint64_t n, char spec, int p);
 
 #endif /*_MAIN_H*/

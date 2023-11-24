@@ -22,6 +22,7 @@ int handle_oct(uint64_t n, str_builder *sb, str_builder *f, int w, int p)
 	if (is_zero_p && n == 0 && w == 0)
 		return (0);
 
+	/* I dont wanna print when precision is set to 0 and number is 0*/
 	if (!(is_zero_p && n == 0 && w != 0))
 	{
 		if (n == 0)

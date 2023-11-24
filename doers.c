@@ -34,7 +34,7 @@ int do_int(va_list ap, str_builder *sb, str_builder *f, char *p, int w, int pr)
  * Return: number of bytes written
  */
 int do_uint(va_list ap, str_builder *sb, str_builder *f, char *p,
-						int w, int pr)
+		int w, int pr)
 {
 	if (*(p - 1) == 'h')
 		return (handle_uint((uint16_t) va_arg(ap, uint32_t), sb, f, w, pr));

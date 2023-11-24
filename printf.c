@@ -46,7 +46,7 @@ int _write(str_builder *sb, char *s, int s_len)
  * Return: Number of bytes written..
  */
 int handle_spec(va_list ap, char **ptr, str_builder *buf,
-								str_builder *f,	int w, int p)
+		str_builder *f,	int w, int p)
 {
 	switch (**ptr)
 	{

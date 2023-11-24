@@ -19,6 +19,7 @@ int handle_plus_space(int64_t n, str_builder *sb, int opt)
 
 /**
  * handle_hash - handles the '#' flag for int specifiers.
+ * changes the display mode for hex and oct numbers.
  * @n: integer to be converted.
  * @sb: pointer to the buffer
  * @spec: specifier identifier e.g 'd'
@@ -69,6 +70,7 @@ int hyphen_zero_flag(int w, str_builder *f)
 		if (dec_p && (zf > dec_p || zf + 1 == dec_p))
 			return (0);
 
+		/* Get the end index when there's decimal(precision) or otherwise */
 		if (dec_p && (dec_p - 1) > f->buffer)
 			end = (dec_p - f->buffer) - 1;
 		else
@@ -95,7 +97,7 @@ int hyphen_zero_flag(int w, str_builder *f)
  * Return: number of bytes written
  */
 int handle_intflags(uint64_t n, int is_negative, str_builder *sb,
-										str_builder *f, char spec, int hzflag, int cp, int zp)
+		str_builder *f, char spec, int hzflag, int cp, int zp)
 {
 	int b = 0;
 	char c = ' ';
@@ -106,7 +108,7 @@ int handle_intflags(uint64_t n, int is_negative, str_builder *sb,
 		if (is_negative)
 			b += _write(sb, "-", 1);
 	}
-
+	/* handle '+' and ' ' if '0' flag is set*/
 	if (hzflag == 2 && strchr(f->buffer, '+') && !is_negative)
 		b += handle_plus_space(n, sb, 0);
 	else if (hzflag == 2 && strchr(f->buffer, ' ') && !is_negative)
@@ -119,7 +121,7 @@ int handle_intflags(uint64_t n, int is_negative, str_builder *sb,
 		if (hzflag != 1)
 			b += padding(sb, c, cp);
 	}
-
+	/* handle '+' and ' ' if '0' flag is not set*/
 	if (hzflag != 2 && strchr(f->buffer, '+') && !is_negative)
 		b += handle_plus_space(n, sb, 0);
 	else if (hzflag != 2 && strchr(f->buffer, ' ') && !is_negative)

@@ -82,7 +82,7 @@ int padding(str_builder *sb, char c, int count)
  * Return: Numbr of pads needed for alignment;
  */
 int int_align_pads(uint64_t n, int is_negative, int is_zero_p,
-									 char spec, int w, int zp)
+		char spec, int w, int zp)
 {
 	int d = digits(n, spec);
 	int cp; /* char padding */

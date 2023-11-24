@@ -31,6 +31,7 @@ int handle_int(int64_t n, str_builder *sb, str_builder *f, int w, int p)
 	if (is_zero_p && n == 0 && w == 0)
 		return (0);
 
+	/* I dont wanna print when precision is set to 0 and number is 0*/
 	b += (is_zero_p && n == 0 && w != 0) ? 0 : write_int(n, sb);
 	if (cp > 0 && hzflag == 1)
 	{
@@ -65,6 +66,7 @@ int handle_uint(uint64_t n, str_builder *sb, str_builder *f, int w, int p)
 	if (is_zero_p && n == 0 && w == 0)
 		return (0);
 
+	/* I dont wanna print when precision is set to 0 and number is 0*/
 	b += (is_zero_p && n == 0 && w != 0) ? 0 : write_uint(n, sb);
 	if (cp > 0 && hzflag == 1)
 	{

@@ -44,7 +44,11 @@ void sb_append(str_builder *sb, char *s, int n)
  */
 void sb_clean(str_builder *sb)
 {
-	free(sb->buffer);
+	if (sb->buffer != NULL)
+	{
+		free(sb->buffer);
+		sb->buffer = NULL;
+	}
 }
 
 /**

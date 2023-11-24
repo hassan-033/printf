@@ -18,7 +18,7 @@ int handle_hex(uint64_t n, str_builder *sb, str_builder *f,
 	int b = 0, hzflag = hyphen_zero_flag(w, f);
 	char is_zero_p = (p == 0) && (strchr(f->buffer, '.') != NULL);
 	int zp = int_precision_pads(n, 'x', p);
-	int cp = int_align_pads(n, 0, 'x', w, p, zp);
+	int cp = int_align_pads(n, 0, is_zero_p, 'x', w, zp);
 
 	if (is_upper)
 		b += handle_intflags(n, 0, sb, f, 'X', hzflag, cp, zp);
